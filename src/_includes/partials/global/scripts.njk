@@ -1,0 +1,15 @@
+{% uioScripts %}
+<script type="text/javascript" src="/assets/scripts/app.js" defer></script>
+{% if page.fileSlug == "resources" or page.fileSlug == "ressources" or translationKey == "barriers" %}
+<script type="text/javascript" src="/assets/scripts/filter.js" defer></script>
+{% endif %}
+{% if translationKey == "search" %}
+<script type="text/javascript" src="/assets/scripts/search.js"></script>
+{% endif %}
+{% if translationKey == "ecosystem-map" %}
+<script type="text/javascript" src="/assets/scripts/ecosystem-map.js" defer></script>
+{% endif %}
+<script type="module">
+    await import('/pagefind/pagefind-highlight.js');
+    new PagefindHighlight({ highlightParam: "highlight" });
+</script>

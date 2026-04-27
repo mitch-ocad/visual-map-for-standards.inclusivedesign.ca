@@ -1,0 +1,51 @@
+<footer role="contentinfo">
+    <div class="wrapper flow">
+        <div class="content">
+            <section class="contact-us">
+                <div class="flow">
+                    <h2>{% __ 'contact-us' %}</h2>
+                    <p>
+                        <strong>
+                            {% __ 'contact-us-email' %}
+                        </strong><br />
+                        <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+                    </p>
+                    <p>
+                        <strong>
+                            {% __ 'contact-us-phone' %}
+                        </strong><br />
+                        {{ contact.phone }}
+                    </p>
+                    <p>
+                        <strong>
+                            {%  __ 'contact-us-address' %}
+                        </strong>
+                        <address>
+                        {{ contact.address | renderContent('md') | safe }}
+                        </address>
+                    </p>
+                </div>
+            </section>
+
+            <section class="sponsors-license">
+                <div class="flow">
+                    <ul role="list">
+                        <li>
+                            <a href="https://idrc.ocadu.ca" rel="external">
+                                {% include "svg/IDRC.svg" %}
+                                <span class="visually-hidden" lang="en">Inclusive Design Research Centre</a>
+                            <a>
+                        </li>
+                        <li>
+                            <a href="https://ocadu.ca" rel="external">
+                                {% include "svg/OCADU.svg" %}
+                                <span class="visually-hidden" lang="en">OCAD University</a>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="license">{% __ 'license-statement' %}<a href="https://creativecommons.org/licenses/by/4.0/deed.{{ lang }}" rel="license external"><i class="fa-brands fa-creative-commons"></i> <i class="fa-brands fa-creative-commons-by"></i>{% __ 'cc-by' %}</a>.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+</footer>

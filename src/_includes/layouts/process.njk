@@ -1,0 +1,60 @@
+{% extends "layouts/base.njk" %}
+
+{% set processStage = collections['stages_' + lang] | find('data.uuid', stage) %}
+
+{% set pageType = 'process ' + 'stage-' + processStage.data.order %}
+
+{% block banner %}
+<div class="banner">
+    <div class="wrapper">
+        <div class="banner__content flow">
+            {% set breadcrumbKeys = ['guidelines', 'processes', title] %}
+            {% set breadcrumbLinks = [] %}
+            {% for breadcrumbKey in breadcrumbKeys %}
+                {% if not loop.last %}
+                {% set breadcrumb = collections['pages_' + lang] | find('data.translationKey', breadcrumbKey) %}
+                {% set linkTitle = breadcrumb.data.shortTitle if breadcrumb.data.shortTitle else breadcrumb.data.title %}
+                {% set breadcrumbLinks = breadcrumbLinks.concat({ 'title' : linkTitle, 'url' : breadcrumb.url }) %}
+                {% endif %}
+                {% if loop.last %}
+                    {% set breadcrumbLinks = breadcrumbLinks.concat({ 'title' : title, 'url' : url }) %}
+                {% endif %}
+            {% endfor %}
+            {% include "partials/components/breadcrumb.njk" %}
+            <div class="banner__heading">
+            {% include '../../../src/assets/images/' + translationKey + '.svg' %}
+            <h1>{{ title }}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% set actions = collections['actions_' + lang] | findAll('data.processes', uuid) %}
+<nav aria-labelledby="process-menu" class="flow sidebar-menu">
+    <inclusive-disclosure>
+        <button aria-controls="{{ title | slugify }}-menu">
+            <h2 class="h3" id="process-menu">{% __ 'toc' %}</h2>
+        </button>
+        <div content id="{{ title | slugify }}-menu">
+            <ul role="list" class="flow">
+                <li class="flow" id="toc">
+                        <h3>{% __ 'toc' %}</h3>
+                    <ul role="list" class="flow"></ul>
+                </li>
+            </ul>
+        </div>
+    </inclusive-disclosure>
+</nav>
+<article class="article flow">
+{{ content | safe }}
+{% if actions.length > 0 %}
+{% for action in actions %}
+    {% include "partials/components/card--action.njk" %}
+{% endfor %}
+{% else %}
+<p>None found.</p>
+{% endif %}
+</article>
+{% endblock %}

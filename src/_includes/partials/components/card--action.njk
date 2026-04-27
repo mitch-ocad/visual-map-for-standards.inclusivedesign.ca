@@ -1,0 +1,24 @@
+<div class="card action bg-indigo-700">
+    <div class="card__content">
+        <h3>
+            <a class="card__title" href="{{ action.url }}">
+                {{ action.data.title }}
+            </a>
+        </h3>
+        {% set processes = action.data.processes %}
+        <div class="action-processes {{ 'only-two' if processes | length == 2 }}">
+                {% __ 'actions-for' %}
+            {% for processId in processes %}
+                {% if processes | length > 1 %}
+                {{ 'and' if loop.last }}
+                {% endif %}
+                {% set process = collections['processes_' + lang] | find('data.uuid', processId) %}
+                <span>{% include '../../../assets/images/' + process.data.translationKey + '.svg' %}
+                <b>{{ process.data.title }}</b></span>
+                {% if processes | length > 2 %}
+                {{ ',' if not loop.last }}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

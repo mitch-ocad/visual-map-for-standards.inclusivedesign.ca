@@ -1,0 +1,57 @@
+{% extends "layouts/base.njk" %}
+
+{% set pageType = 'barrier' %}
+
+{% block banner %}
+<div class="banner">
+    <div class="wrapper">
+        <div class="banner__content flow">
+            {% set breadcrumbKeys = ['guidelines', 'barriers', title] %}
+            {% set breadcrumbLinks = [] %}
+            {% for breadcrumbKey in breadcrumbKeys %}
+                {% if not loop.last %}
+                {% set breadcrumb = collections['pages_' + lang] | find('data.translationKey', breadcrumbKey) %}
+                {% set linkTitle = breadcrumb.data.shortTitle if breadcrumb.data.shortTitle else breadcrumb.data.title %}
+                {% set breadcrumbLinks = breadcrumbLinks.concat({ 'title' : linkTitle, 'url' : breadcrumb.url }) %}
+                {% endif %}
+                {% if loop.last %}
+                    {% set breadcrumbLinks = breadcrumbLinks.concat({ 'title' : title, 'url' : url }) %}
+                {% endif %}
+            {% endfor %}
+            {% include "partials/components/breadcrumb.njk" %}
+            <h1 data-pagefind-meta="title" data-pagefind-filter="type:barrier">{{ title }}</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<nav aria-labelledby="barrier-menu" class="flow sidebar-menu">
+    <inclusive-disclosure>
+        <button aria-controls="{{ title | slugify }}-menu">
+            <h2 class="h3" id="barrier-menu">{% __ 'toc' %}</h2>
+        </button>
+        <div content id="{{ title | slugify }}-menu">
+            <ul role="list" class="flow">
+                <li class="flow" id="toc">
+                        <h3>{% __ 'toc' %}</h3>
+                    <ul role="list" class="flow"></ul>
+                </li>
+            </ul>
+        </div>
+    </inclusive-disclosure>
+</nav>
+<article class="flow" data-pagefind-body>
+<h2>{% include "svg/problem.svg" %}{% __ 'barriers-problem' %}</h2>
+{{ problem | renderContent('md') | safe }}
+{% if collections['actions_' + lang] | find('data.barriers', uuid) %}
+<h2>{% include "svg/fix.svg" %}{%  __ 'barriers-fix' %}</h2>
+{% for actionItem in collections['actions_' + lang] %}
+    {% if uuid in actionItem.data.barriers %}
+        {% set action = actionItem %}
+        {% include "partials/components/card--action.njk" %}
+    {% endif %}
+{% endfor %}
+{% endif %}
+</article>
+{% endblock %}

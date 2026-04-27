@@ -1,0 +1,30 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+{% set data = {"translations": translations, "lang": lang} %}
+    {% if collections['projects_' + lang].length > 0 %}
+    <section class="bg-indigo-200">
+      <div class="wrapper flow">
+        <h2>{% __ 'projects' %}</h2>
+        <div class="cards">
+        {% for project in collections['projects_' + lang] %}
+          {% include "partials/components/card--project.njk" %}
+        {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+    {% if collections['resources_' + lang].length > 0 %}
+    <section class="bg-indigo-700">
+      <div class="wrapper flow">
+        <h2>{% __ 'resources' %}</h2>
+        <div class="cards resources">
+          {% for resource in collections['resources_' + lang] %}
+              {% include "partials/components/card--resource.njk" %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endif %}
+{% endblock %}

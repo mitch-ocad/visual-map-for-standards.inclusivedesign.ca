@@ -1,0 +1,119 @@
+.flow > * + * {
+    margin-block-start: var(--flow-space, 1em);
+}
+
+.article {
+ 	padding-block: var(--common-block-padding);
+	padding-inline: var(--common-inline-padding);
+}
+
+.visually-hidden {
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.lg-block,
+.lg-inline {
+    display: none;
+}
+
+.bg-indigo-100 {
+    background-color: var(--fl-bgColor, var(--color-indigo-100));
+}
+
+.bg-indigo-200 {
+    background-color: var(--fl-bgColor, var(--color-indigo-200));
+}
+
+.bg-indigo-700 {
+    background-color: var(--fl-bgColor, var(--color-indigo-700));
+    color: var(--fl-fgColor, white);
+}
+
+.bg-indigo-800 {
+    background-color: var(--fl-bgColor, var(--color-indigo-800));
+    color: var(--fl-fgColor, white);
+}
+
+.bg-red {
+    background-color: var(--fl-bgColor, var(--color-red));
+}
+
+.bg-orange {
+    background-color: var(--fl-bgColor, var(--color-orange));
+}
+
+.bg-yellow {
+    background-color: var(--fl-bgColor, var(--color-yellow));
+}
+
+.bg-green {
+    background-color: var(--fl-bgColor, var(--color-green));
+}
+
+.bg-blue {
+    background-color: var(--fl-bgColor, var(--color-blue));
+}
+
+.bg-guidelines-stage-1 {
+	background-color: var(--fl-bgColor, var(--color-guidelines-red));
+}
+
+.bg-guidelines-stage-2 {
+	background-color: var(--fl-bgColor, var(--color-guidelines-orange));
+}
+
+.bg-guidelines-stage-3 {
+	background-color: var(--fl-bgColor, var(--color-guidelines-yellow));
+}
+
+.bg-guidelines-stage-4 {
+	background-color: var(--fl-bgColor, var(--color-guidelines-green));
+}
+
+.bg-guidelines-stage-5 {
+	background-color: var(--fl-bgColor, var(--color-guidelines-blue));
+}
+
+.bg-guidelines-stage-1-light {
+	background-color: var(--fl-bgColor, var(--color-guidelines-red-light));
+}
+
+.bg-guidelines-stage-2-light {
+	background-color: var(--fl-bgColor, var(--color-guidelines-orange-light));
+}
+
+.bg-guidelines-stage-3-light {
+	background-color: var(--fl-bgColor, var(--color-guidelines-yellow-light));
+}
+
+.bg-guidelines-stage-4-light {
+	background-color: var(--fl-bgColor, var(--color-guidelines-green-light));
+}
+
+.bg-guidelines-stage-5-light {
+	background-color: var(--fl-bgColor, var(--color-guidelines-blue-light));
+}
+
+.bg-dark-grey {
+    background-color: var(--fl-bgColor, var(--color-dark-grey));
+    color: var(--fl-fgColor, white);
+}
+
+@media (width >= 40rem) {
+    .lg-hidden {
+        display: none;
+    }
+
+    .lg-block {
+        display: block;
+    }
+
+    .lg-inline {
+        display: inline;
+    }
+}

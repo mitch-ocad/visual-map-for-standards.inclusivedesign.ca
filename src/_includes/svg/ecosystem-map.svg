@@ -1,0 +1,71 @@
+<svg class="ecosystem-map__svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 560" role="img" aria-labelledby="eco-title eco-desc">
+    <title id="eco-title">Standards Development Ecosystem Map</title>
+    <desc id="eco-desc">Five cyclical stages of standards development: Stage 1, Organization Setup and Strategies, leads to Stage 2, Outreach, Recruiting and Registering Participants, which leads to Stage 3, Preparing for Participation, then Stage 4, Collectively Drafting the Standard, then Stage 5, Publishing, Feedback and Maintenance, which feeds back into Stage 1.</desc>
+
+    <defs>
+        <marker id="eco-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#444"/>
+        </marker>
+    </defs>
+
+    <!-- Arrows between stages (drawn before boxes so boxes sit on top) -->
+    <!-- Stage 1 → Stage 2 -->
+    <path d="M 460 80 C 510 80 545 125 545 163" stroke="#444" stroke-width="2" fill="none" marker-end="url(#eco-arrow)"/>
+    <!-- Stage 2 → Stage 3 -->
+    <path d="M 555 273 C 555 355 510 395 476 402" stroke="#444" stroke-width="2" fill="none" marker-end="url(#eco-arrow)"/>
+    <!-- Stage 3 → Stage 4 -->
+    <path d="M 381 442 L 314 442" stroke="#444" stroke-width="2" fill="none" marker-end="url(#eco-arrow)"/>
+    <!-- Stage 4 → Stage 5 -->
+    <path d="M 232 402 C 232 345 186 308 160 273" stroke="#444" stroke-width="2" fill="none" marker-end="url(#eco-arrow)"/>
+    <!-- Stage 5 → Stage 1 -->
+    <path d="M 155 163 C 155 110 205 80 240 80" stroke="#444" stroke-width="2" fill="none" marker-end="url(#eco-arrow)"/>
+
+    <!-- Stage 1: Organization Setup and Strategies (top) -->
+    <rect x="240" y="40" width="220" height="80" rx="8" fill="#1a3a4a"/>
+    <text text-anchor="middle" fill="white" font-family="sans-serif">
+        <tspan x="350" y="70" font-size="13" font-weight="bold">Stage 1</tspan>
+        <tspan x="350" y="88" font-size="11">Organization Setup</tspan>
+        <tspan x="350" y="104" font-size="11">and Strategies</tspan>
+    </text>
+
+    <!-- Stage 2: Outreach, Recruiting and Registering Participants (upper right) -->
+    <rect x="458" y="163" width="164" height="110" rx="8" fill="#1a4a3a"/>
+    <text text-anchor="middle" fill="white" font-family="sans-serif">
+        <tspan x="540" y="193" font-size="13" font-weight="bold">Stage 2</tspan>
+        <tspan x="540" y="211" font-size="11">Outreach, Recruiting</tspan>
+        <tspan x="540" y="227" font-size="11">and Registering</tspan>
+        <tspan x="540" y="243" font-size="11">Participants</tspan>
+    </text>
+
+    <!-- Stage 3: Preparing for Participation (lower right) -->
+    <rect x="381" y="402" width="174" height="80" rx="8" fill="#3a4a1a"/>
+    <text text-anchor="middle" fill="white" font-family="sans-serif">
+        <tspan x="468" y="432" font-size="13" font-weight="bold">Stage 3</tspan>
+        <tspan x="468" y="450" font-size="11">Preparing for</tspan>
+        <tspan x="468" y="466" font-size="11">Participation</tspan>
+    </text>
+
+    <!-- Stage 4: Collectively Drafting the Standard (lower left) -->
+    <rect x="150" y="402" width="164" height="80" rx="8" fill="#4a3a1a"/>
+    <text text-anchor="middle" fill="white" font-family="sans-serif">
+        <tspan x="232" y="432" font-size="13" font-weight="bold">Stage 4</tspan>
+        <tspan x="232" y="450" font-size="11">Collectively Drafting</tspan>
+        <tspan x="232" y="466" font-size="11">the Standard</tspan>
+    </text>
+
+    <!-- Stage 5: Publishing, Feedback and Maintenance (upper left) -->
+    <rect x="78" y="163" width="164" height="110" rx="8" fill="#4a1a3a"/>
+    <text text-anchor="middle" fill="white" font-family="sans-serif">
+        <tspan x="160" y="193" font-size="13" font-weight="bold">Stage 5</tspan>
+        <tspan x="160" y="211" font-size="11">Publishing,</tspan>
+        <tspan x="160" y="227" font-size="11">Feedback and</tspan>
+        <tspan x="160" y="243" font-size="11">Maintenance</tspan>
+    </text>
+
+    <!-- Center label -->
+    <text text-anchor="middle" fill="#333" font-family="sans-serif">
+        <tspan x="350" y="278" font-size="15" font-weight="bold">Standards</tspan>
+        <tspan x="350" y="298" font-size="15" font-weight="bold">Development</tspan>
+        <tspan x="350" y="318" font-size="15" font-weight="bold">Cycle</tspan>
+    </text>
+</svg>

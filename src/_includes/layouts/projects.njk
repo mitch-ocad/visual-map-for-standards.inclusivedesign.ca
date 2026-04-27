@@ -1,0 +1,17 @@
+{% extends "layouts/base.njk" %}
+
+{% block content %}
+    {% if collections['projects_' + lang].length > 0 %}
+    <section class="bg-indigo-100">
+        {% for project in collections['projects_' + lang] %}
+            {% include "partials/components/project-panel.njk" %}
+        {% endfor %}
+    </section>
+    {% else %}
+    <section class="bg-indigo-100">
+        <div class="wrapper">
+            <p>{% __ "no-projects" %}</p>
+        </div>
+    </section>
+    {% endif %}
+{% endblock %}

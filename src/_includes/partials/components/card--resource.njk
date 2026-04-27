@@ -1,0 +1,38 @@
+<div class="card" data-filter-type="{{ resource.data.type }}" data-filter-projects="{{ resource.data.projects }}" data-filter-topics="{{ resource.data.topics }}"
+    data-filter-type="{{ resource.data.type }}" data-filter-language="{{ resource.data.language }}" data-filter-publisher="{{ resource.data.publisher }}" data-title="{{ resource.data.title }}" data-date="{{ resource.data.date }}">
+    <div class="card__content">
+        <h3>
+            <a class="card__title" href="{{ resource.data.link if resource.data.link else resource.url }}"{% if resource.data.link %} rel="external"{% endif %}>
+                {{ resource.data.title | safe }} {% if resource.data.link %}<i class="fa-solid fa-arrow-up-right-from-square"></i>{% endif %}
+            </a>
+        </h3>
+        {% if resource.data.author or resource.data.publisher %}
+        <div class="card__publisher">
+            <p>{{ resource.data.author }}{% if resource.data.author and resource.data.publisher %} | {% endif %}{{ resource.data.publisher }}</p>
+        </div>
+        {% endif %}
+        <div class="card__body">
+            <p>{{ resource.data.description | safe }}</p>
+        </div>
+        <div class="card__resource-type">
+            {% include "svg/type.svg" %} {% __ resource.data.type %}
+        </div>
+        <div class="card__resource-date">
+            {% include "svg/date.svg" %} {{ resource.data.date | formatDate }}
+        </div>
+        <div class="card__resource-language">
+            {% include "../../../assets/images/resource-language.svg" %}
+                {% for language in resource.data.contentLanguages %}
+                    {% set languageObject = languages[lang].languages | find('code', language) %}
+                    {{ languageObject.name }}{% if not loop.last %}, {% endif %}{% endfor %}
+        </div>
+        {% if resource.data.topics.length > 0 %}
+        <div class="card__tags tags">
+            {% for topicId in resource.data.topics %}
+            {% set topic = collections['topics_' + lang] | find("data.page.fileSlug", topicId) %}
+            <div class="tag">{{ topic.data.title }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>

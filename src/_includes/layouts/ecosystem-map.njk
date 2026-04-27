@@ -1,0 +1,234 @@
+{% extends "layouts/base.njk" %}
+
+{% set pageType = 'ecosystem-map' %}
+
+{% set stagesData = [
+  {
+    id: 'foundation',
+    name: 'Foundation',
+    subtitle: 'Organization setup and strategies',
+    stageUuid: '2ac90c88',
+    color: '#D17C7C',
+    description: 'Every ecosystem begins with what lies beneath. This stage is about setting up the conditions that make the standards development process for success. Decisions made in this stage shape the health of everything that grows from them.'
+  },
+  {
+    id: 'seeding',
+    name: 'Seeding',
+    subtitle: 'Outreach, recruiting and registering participants',
+    stageUuid: 'b394d47d',
+    color: '#EA8E60',
+    description: 'Seeds only take root where they land. In this stage, determinations about who gets invited to the process and how they are involved, ensuring diverse users can enter the standards development process.'
+  },
+  {
+    id: 'rooting',
+    name: 'Rooting',
+    subtitle: 'Preparing for participation',
+    stageUuid: '228cf07a',
+    color: '#FFD683',
+    description: 'Nothing above ground survives without what’s happening beneath it. This stage is about building conditions for inclusive participation to take hold. Decisions made in this stage will have a lasting impact on every stage that follows. Strong roots don’t just support individuals, they sustain everything that grows from them.'
+  },
+  {
+    id: 'canopy',
+    name: 'Canopy',
+    subtitle: 'Collectively drafting the standard',
+    stageUuid: '5871d856',
+    color: '#92C185',
+    description: 'A canopy only holds because of what supports it from below. The roots, seeds and conditions built in earlier stages come together in the work of collectively drafting standards through many overlapping processes. This stage has the most moving parts, and the most opportunities to either create or remove barriers.'
+  },
+  {
+    id: 'watershed',
+    name: 'Watershed',
+    subtitle: 'Publishing, feedback and maintenance',
+    stageUuid: '8820ca59',
+    color: '#83BAB9',
+    description: 'A watershed doesn’t end; it cycles as time passes. This stage covers what happens after publishing and builds the accountability and trust that will eventually flow back into future standards that are developed.'
+  }
+] %}
+
+{% block content %}
+<section class="ecosystem-map">
+  <div class="wrapper">
+    <div class="ecosystem-map__intro flow">
+      {{ content | safe }}
+    </div>
+
+    {# Fallback list — visible on small screens, screen-reader accessible on all sizes #}
+    <h2 class="visually-hidden">Browse stages</h2>
+    <ul class="ecosystem-map__fallback" role="list">
+      {% for stage in stagesData %}
+      <li style="--stage-color: {{ stage.color }}">
+        <button class="ecosystem-map__fallback-btn" data-modal="modal-{{ stage.id }}" aria-haspopup="dialog" aria-controls="modal-{{ stage.id }}">
+          <div class="ecosystem-map__fallback-icon">
+            <img src="/assets/images/ecosystem-map/{{ stage.id }}-icon.svg" alt="" aria-hidden="true" width="28" height="28" />
+          </div>
+          <div class="ecosystem-map__fallback-text">
+            <strong>{{ stage.name }}</strong>
+            <span>{{ stage.subtitle }}</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </button>
+      </li>
+      {% endfor %}
+    </ul>
+
+    {# Visual map canvas #}
+    <div class="ecosystem-map__canvas" role="region" aria-label="Interactive ecosystem map">
+
+      {# Four small corner arrows indicating cyclical flow #}
+      <div class="ecosystem-map__arrows" aria-hidden="true">
+        <img class="ecosystem-map__arrow ecosystem-map__arrow--tl" src="/assets/images/ecosystem-map/ecosystem-arrow.svg" alt="" />
+        <img class="ecosystem-map__arrow ecosystem-map__arrow--tr" src="/assets/images/ecosystem-map/ecosystem-arrow.svg" alt="" />
+        <img class="ecosystem-map__arrow ecosystem-map__arrow--br" src="/assets/images/ecosystem-map/ecosystem-arrow.svg" alt="" />
+        <img class="ecosystem-map__arrow ecosystem-map__arrow--bl" src="/assets/images/ecosystem-map/ecosystem-arrow.svg" alt="" />
+      </div>
+
+      {# Blob buttons — the blob SVG is the clickable area #}
+      {% for stage in stagesData %}
+      <button class="ecosystem-map__stage ecosystem-map__stage--{{ stage.id }}"
+              style="--stage-color: {{ stage.color }}"
+              data-modal="modal-{{ stage.id }}"
+              aria-haspopup="dialog"
+              aria-controls="modal-{{ stage.id }}">
+        <img class="ecosystem-map__blob" src="/assets/images/ecosystem-map/{{ stage.id }}-bg.svg" alt="" aria-hidden="true" />
+        <span class="visually-hidden">{{ stage.name }}, {{ stage.subtitle }}. Opens dialog.</span>
+      </button>
+      {% endfor %}
+
+      {# Labels layer — sits above all blob buttons so no blob can cover a label #}
+      <div class="ecosystem-map__labels-layer" aria-hidden="true">
+        {% for stage in stagesData %}
+        <div class="ecosystem-map__stage-label ecosystem-map__stage-label--{{ stage.id }}"
+             style="--stage-color: {{ stage.color }}">
+          <div class="ecosystem-map__stage-label-text">
+            <strong class="ecosystem-map__stage-name">{{ stage.name }}</strong>
+            <span class="ecosystem-map__stage-subtitle">{{ stage.subtitle }}</span>
+          </div>
+          <div class="ecosystem-map__stage-icon-wrap">
+            <img class="ecosystem-map__stage-icon" src="/assets/images/ecosystem-map/{{ stage.id }}-icon.svg" alt="" />
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>{# end .ecosystem-map__canvas #}
+
+    {# Stage modals #}
+    {% for stage in stagesData %}
+    {% set stageProcesses = collections['processes_' + lang] | findAll('data.stage', stage.stageUuid) | sort(false, false, 'data.order') %}
+    <dialog id="modal-{{ stage.id }}" class="stage-modal" style="--stage-color: {{ stage.color }}" aria-labelledby="modal-{{ stage.id }}-title">
+      <div class="stage-modal__inner">
+        <button class="stage-modal__close" aria-label="Close">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <div class="stage-modal__header">
+          <div class="stage-modal__icon-wrap">
+            <img class="stage-modal__icon" src="/assets/images/ecosystem-map/{{ stage.id }}-icon.svg" alt="" aria-hidden="true" />
+          </div>
+          <div class="stage-modal__title-wrap">
+            <h2 class="stage-modal__name" id="modal-{{ stage.id }}-title">{{ stage.name }}</h2>
+            <p class="stage-modal__subtitle">{{ stage.subtitle }}</p>
+          </div>
+        </div>
+        <p class="stage-modal__description">{{ stage.description }}</p>
+        {% if stageProcesses.length > 0 %}
+        <ul class="stage-modal__processes" role="list">
+          {% for process in stageProcesses %}
+          <li>
+            <button class="stage-modal__process-btn"
+                    data-sidebar="sidebar-{{ process.data.uuid }}"
+                    data-stage-modal="modal-{{ stage.id }}">
+              <img class="stage-modal__process-icon" src="/assets/images/{{ process.data.translationKey }}.svg" alt="" aria-hidden="true" />
+              <span>{{ process.data.title }}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </button>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </dialog>
+    {% endfor %}
+
+    {# Process sidebars #}
+    {% for stage in stagesData %}
+    {% set stageProcesses = collections['processes_' + lang] | findAll('data.stage', stage.stageUuid) | sort(false, false, 'data.order') %}
+    {% for process in stageProcesses %}
+    {% set processActions = collections['actions_' + lang] | findAll('data.processes', process.data.uuid) | sort(false, false, 'data.order') %}
+    <dialog id="sidebar-{{ process.data.uuid }}"
+            class="process-sidebar"
+            style="--stage-color: {{ stage.color }}"
+            data-stage-modal="modal-{{ stage.id }}"
+            aria-labelledby="sidebar-{{ process.data.uuid }}-title">
+      <div class="process-sidebar__inner">
+        <div class="process-sidebar__header">
+          <button class="process-sidebar__back" data-stage-modal="modal-{{ stage.id }}" aria-label="Back to {{ stage.name }}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+              <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+            <span>{{ stage.name }}</span>
+          </button>
+          <button class="process-sidebar__close" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="process-sidebar__stage-header">
+          <div class="process-sidebar__stage-icon-wrap">
+            <img src="/assets/images/{{ process.data.translationKey }}.svg" alt="" aria-hidden="true" />
+          </div>
+          <h2 class="process-sidebar__title" id="sidebar-{{ process.data.uuid }}-title">{{ process.data.title }}</h2>
+        </div>
+        <div class="process-sidebar__why">
+          {{ process.templateContent | safe }}
+        </div>
+        {% if processActions.length > 0 %}
+        <div class="process-sidebar__actions">
+          <h3 class="process-sidebar__actions-heading">Actions</h3>
+          {% for action in processActions %}
+          <details class="action-accordion">
+            <summary class="action-accordion__summary">
+              <span>{{ action.data.title }}</span>
+              <svg class="action-accordion__chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </summary>
+            <div class="action-accordion__content flow">
+              {% if action.data.quick %}
+              <div class="action-accordion__section">
+                <h4 class="action-accordion__label">Quick actions</h4>
+                {{ action.data.quick | markdown | safe }}
+              </div>
+              {% endif %}
+              {% if action.data.longterm %}
+              <div class="action-accordion__section">
+                <h4 class="action-accordion__label">Long-term actions</h4>
+                {{ action.data.longterm | markdown | safe }}
+              </div>
+              {% endif %}
+              <a class="action-accordion__more-link" href="{{ action.url }}" target="_blank" rel="noopener noreferrer">
+                More information
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+                <span class="visually-hidden">(opens in new tab)</span>
+              </a>
+            </div>
+          </details>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </dialog>
+    {% endfor %}
+    {% endfor %}
+
+  </div>
+</section>
+{% endblock %}

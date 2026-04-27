@@ -1,0 +1,702 @@
+/* ============================================
+   Ecosystem Map — Page wrapper
+   ============================================ */
+
+.ecosystem-map {
+    padding-block: var(--space-l);
+}
+
+.ecosystem-map__intro {
+    padding-block-start: 2rem;
+    margin-block-end: 2rem;
+    max-width: 65ch;
+}
+
+/* ============================================
+   Mobile fallback list (visible < 48em)
+   ============================================ */
+
+.ecosystem-map__fallback {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 var(--space-l);
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ecosystem-map__fallback-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: color-mix(in srgb, var(--stage-color) 15%, #fff);
+    border: 2px solid var(--stage-color);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+}
+
+.ecosystem-map__fallback-btn:hover {
+    background: color-mix(in srgb, var(--stage-color) 30%, #fff);
+}
+
+.ecosystem-map__fallback-btn:focus-visible {
+    outline: 3px solid var(--stage-color);
+    outline-offset: 2px;
+}
+
+.ecosystem-map__fallback-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--stage-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ecosystem-map__fallback-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.ecosystem-map__fallback-text strong {
+    font-size: 1rem;
+    color: #1a1a1a;
+}
+
+.ecosystem-map__fallback-text span {
+    font-size: 0.8rem;
+    color: #555;
+}
+
+@media (max-width: 48em) {
+    .ecosystem-map__fallback {
+        display: flex;
+    }
+}
+
+/* On larger screens, hide the fallback visually but keep it accessible to screen readers */
+@media (min-width: 48em) {
+    .ecosystem-map__fallback {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+}
+
+/* ============================================
+   Visual Map Canvas (hidden < 48em)
+   ============================================ */
+
+.ecosystem-map__canvas {
+    position: relative;
+    width: 100%;
+    max-width: 780px;
+    aspect-ratio: 1;
+    margin-inline: auto;
+    margin-block: 3rem;
+}
+
+@media (max-width: 48em) {
+    .ecosystem-map__canvas {
+        display: none;
+        padding-block-end: 2rem;
+
+    }
+}
+
+/* ============================================
+   Cycle arrows — 4 small corner arrows
+   ============================================ */
+
+.ecosystem-map__arrows {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.ecosystem-map__arrow {
+    position: absolute;
+    width: 20%;
+    height: auto;
+}
+
+/* Top-left: pointing toward top-right (clockwise flow) */
+.ecosystem-map__arrow--tl {
+    top: 1%;
+    left: 1%;
+    transform: rotate(0deg);
+    transform-origin: center center;
+}
+
+.ecosystem-map__arrow--tr {
+    top: 1%;
+    right: 1%;
+    transform: rotate(90deg);
+    transform-origin: center center;
+}
+
+.ecosystem-map__arrow--br {
+    bottom: 1%;
+    right: 1%;
+    transform: rotate(180deg);
+    transform-origin: center center;
+}
+
+.ecosystem-map__arrow--bl {
+    bottom: 1%;
+    left: 1%;
+    transform: rotate(270deg);
+    transform-origin: center center;
+}
+
+/* ============================================
+   Stage blob buttons — blob is the clickable area
+   ============================================ */
+
+.ecosystem-map__stage {
+    position: absolute;
+    z-index: 1;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+    overflow: visible;
+}
+
+.ecosystem-map__stage:focus-visible {
+    outline: 3px solid var(--stage-color);
+    outline-offset: 4px;
+    border-radius: 40%;
+}
+
+/* The blob image fills the button and sets its natural size */
+.ecosystem-map__blob {
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+}
+
+.ecosystem-map__stage:hover .ecosystem-map__blob {
+    opacity: 0.85;
+}
+
+/* Labels layer — sits above all blob buttons */
+.ecosystem-map__labels-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Stage Labels: positioned relative to the canvas */
+.ecosystem-map__stage-label {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    pointer-events: none;
+}
+
+/* White bordered text box - Sages */
+.ecosystem-map__stage-label-text {
+    background: #fff;
+    border: 2.5px solid var(--stage-color);
+    border-radius: 6px;
+    padding: 0.35em 0.55em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1em;
+    box-shadow: 0 2px 8px rgba(0 0 0 / 0.12);
+}
+
+.ecosystem-map__stage-name {
+    font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+    font-weight: 700;
+    color: #1a1a1a;
+    display: block;
+    white-space: nowrap;
+}
+
+.ecosystem-map__stage-subtitle {
+    font-size: clamp(0.65rem, 1.1vw, 0.85rem);
+    color: #444;
+    display: block;
+    line-height: 1.3;
+    max-width: 14em;
+}
+
+.ecosystem-map__stage-icon-wrap {
+    width: clamp(2rem, 4vw, 3rem);
+    height: clamp(2rem, 4vw, 3rem);
+    border-radius: 50%;
+    background: var(--stage-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ecosystem-map__stage-icon {
+    width: 58%;
+    height: 58%;
+    object-fit: contain;
+}
+
+/* Stage label positions */
+.ecosystem-map__stage-label--watershed {
+    top: 7%;
+    left: 26%;
+}
+
+.ecosystem-map__stage-label--canopy {
+    top: 26%;
+    right: 15%;
+}
+
+.ecosystem-map__stage-label--rooting {
+    top: 34%;
+    right: 69%;
+}
+
+.ecosystem-map__stage-label--seeding {
+    top: 52%;
+    right: 20%;
+}
+
+.ecosystem-map__stage-label--foundation {
+    bottom: 16%;
+    left: 11%;
+}
+
+/*Main screen blob positions */
+
+.ecosystem-map__stage--watershed {
+    left: 22%;
+    top: 3%;
+    width: 52%;
+}
+
+.ecosystem-map__stage--canopy {
+    left: 35%;
+    top: 16%;
+    width: 50%;
+}
+
+.ecosystem-map__stage--rooting {
+    left: 5%;
+    top: 18%;
+    width: 43%;
+    z-index: 2;
+}
+
+.ecosystem-map__stage--seeding {
+    left: 42%;
+    top: 48%;
+    width: 38%;
+    z-index: 2;
+}
+
+.ecosystem-map__stage--foundation {
+    left: 7%;
+    top: 62%;
+    width: 72%;
+}
+
+/* ============================================
+   Stage Popups
+   ============================================ */
+
+.stage-modal {
+    position: fixed;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: min(90vw, 36rem);
+    max-height: 90vh;
+    overflow-y: auto;
+    border: none;
+    border-radius: 1rem;
+    padding: 0;
+    box-shadow: 0 8px 32px rgba(0 0 0 / 0.2);
+    background: #fff;
+}
+
+.stage-modal::backdrop {
+    background: rgba(0 0 0 / 0.45);
+    backdrop-filter: blur(2px);
+}
+
+.stage-modal__inner {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.stage-modal__close {
+    align-self: flex-end;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0.25rem;
+    border-radius: 4px;
+    line-height: 1;
+}
+
+.stage-modal__close:hover { color: #000; }
+
+.stage-modal__close:focus-visible {
+    outline: 3px solid var(--stage-color);
+    outline-offset: 2px;
+}
+
+.stage-modal__header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding-block-end: 1.25rem;
+    border-bottom: 3px solid var(--stage-color);
+}
+
+.stage-modal__icon-wrap {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    background: var(--stage-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.stage-modal__icon {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+.stage-modal__subtitle {
+    font-size: 0.875rem;
+    color: #555;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.stage-modal__name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1a1a1a;
+}
+
+.stage-modal__description {
+    font-size: 1.05rem;
+    color: #333;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.stage-modal__processes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stage-modal__process-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    background: color-mix(in srgb, var(--stage-color) 12%, #fff);
+    border: 2px solid color-mix(in srgb, var(--stage-color) 40%, transparent);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    text-align: left;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.stage-modal__process-btn:hover {
+    background: color-mix(in srgb, var(--stage-color) 25%, #fff);
+    border-color: var(--stage-color);
+}
+
+.stage-modal__process-btn:focus-visible {
+    outline: 3px solid var(--stage-color);
+    outline-offset: 2px;
+}
+
+.stage-modal__process-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.stage-modal__process-btn > span {
+    flex: 1;
+    text-align: left;
+}
+
+/* ============================================
+   Process Sidebar
+   ============================================ */
+
+.process-sidebar {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(100vw, 34rem);
+    height: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
+    border: none;
+    padding: 0;
+    box-shadow: -4px 0 24px rgba(0 0 0 / 0.15);
+    background: #fff;
+    border-left: 4px solid var(--stage-color);
+    margin: 0;
+}
+
+.process-sidebar::backdrop {
+    background: rgba(0 0 0 / 0.35);
+    backdrop-filter: blur(2px);
+}
+
+.process-sidebar__inner {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.process-sidebar__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block-end: var(--space-xs);
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.process-sidebar__back {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--stage-color) 75%, #000);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.process-sidebar__back:hover { text-decoration: underline; }
+
+.process-sidebar__back:focus-visible {
+    outline: 3px solid var(--stage-color);
+    outline-offset: 2px;
+}
+
+.process-sidebar__close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 0.25rem;
+    border-radius: 4px;
+    line-height: 1;
+}
+
+.process-sidebar__close:hover { color: #000; }
+
+.process-sidebar__close:focus-visible {
+    outline: 3px solid var(--stage-color);
+    outline-offset: 2px;
+}
+
+.process-sidebar__stage-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.process-sidebar__stage-icon-wrap {
+    width: 3.5rem;
+    height: 3.5rem;
+    flex-shrink: 0;
+}
+
+.process-sidebar__stage-icon-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.process-sidebar__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1a1a1a;
+}
+
+.process-sidebar__why :is(h2, h3):last-of-type {
+    display: none;
+}
+
+.process-sidebar__why p:last-child {
+    display: none;
+}
+
+.process-sidebar__why p {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: #333;
+    margin-block-end: 0.5rem;
+}
+
+.process-sidebar__actions-heading {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    padding-block-start: 0.75rem;
+    border-top: 2px solid var(--stage-color);
+    color: #1a1a1a;
+}
+
+/* ============================================
+   Action Accordion
+   ============================================ */
+
+.action-accordion {
+    border: 1px solid #e0e0e0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.action-accordion + .action-accordion {
+    margin-block-start: 0.5rem;
+}
+
+.action-accordion[open] {
+    border-color: color-mix(in srgb, var(--stage-color) 60%, transparent);
+}
+
+.action-accordion__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    background: #fafafa;
+    list-style: none;
+    user-select: none;
+}
+
+.action-accordion__summary::-webkit-details-marker { display: none; }
+
+.action-accordion__summary:hover {
+    background: color-mix(in srgb, var(--stage-color) 10%, #fff);
+}
+
+.action-accordion__summary:focus-visible {
+    outline: 3px solid var(--stage-color);
+    outline-offset: -3px;
+}
+
+.action-accordion__chevron {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+    color: #666;
+}
+
+.action-accordion[open] .action-accordion__chevron {
+    transform: rotate(180deg);
+}
+
+.action-accordion__content {
+    padding: 1rem;
+    border-top: 1px solid #e8e8e8;
+    background: #fff;
+}
+
+.action-accordion__label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: color-mix(in srgb, var(--stage-color) 60%, #000);
+    margin-block-end: 0.4rem;
+    margin-block-start: 0;
+}
+
+.action-accordion__section {
+    margin-block-end: 0.75rem;
+}
+
+.action-accordion__section ul,
+.action-accordion__more ul {
+    padding-inline-start: 1.25rem;
+    margin: 0;
+}
+
+.action-accordion__section li,
+.action-accordion__more li {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #333;
+    margin-block-end: 0.3rem;
+}
+
+.action-accordion__more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    margin-block-start: 0.5rem;
+    padding: 0.45em 0.9em;
+    background: color-mix(in srgb, var(--stage-color) 15%, #fff);
+    border: 2px solid var(--stage-color);
+    border-radius: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--stage-color) 60%, #000);
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+
+.action-accordion__more-link:hover {
+    background: color-mix(in srgb, var(--stage-color) 30%, #fff);
+}

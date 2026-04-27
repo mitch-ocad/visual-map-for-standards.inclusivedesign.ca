@@ -1,0 +1,47 @@
+{% set filterData = { stages: [], processes: [] } %}
+
+{% set relatedActions = collections["actions_" + lang] | findAll('data.barriers', barrier.data.uuid) %}
+{% set relatedStageUuids = [] %}
+{% set relatedProcessUuids = [] %}
+{% for action in relatedActions %}
+	{% set relatedProcessUuids = relatedProcessUuids.concat(action.data.processes) %}
+{% endfor %}
+{% for relatedProcessUuid in relatedProcessUuids %}
+	{% set relatedProcess = collections['processes_' + lang] | find('data.uuid', relatedProcessUuid) %}
+	{% set relatedStageUuids = relatedStageUuids.concat([relatedProcess.data.stage]) %}
+{% endfor %}
+
+{% set filterData = filterData | objectArrayPush("stages", relatedStageUuids) %}
+{% set filterData = filterData | objectArrayPush("processes", relatedProcessUuids) %}
+
+<div class="card barrier bg-indigo-700" data-filter-stages="{{ filterData.stages | join(',') }}" data-filter-processes="{{ filterData.processes | join(',') }}">
+    <div class="card__content">
+        <h3>
+            <a class="card__title" href="{{ barrier.url }}">
+                {{ barrier.data.title }}
+            </a>
+        </h3>
+        {% if barrier.data.problem %}
+            <div class="card__heading-image">
+                {% include 'svg/problem.svg' %}
+                <h4>
+                    {% __ 'barriers-problem' %}
+                </h4>
+            </div>
+            {{ barrier.data.problem | markdown | safe }}
+        {% endif %}
+        {% if collections["actions_" + lang] | find("data.barriers", barrier.data.uuid) | length > 0 %}
+            <div class="card__heading-image">
+                {% include 'svg/fix.svg' %}
+                <h4>
+                    {% __ 'barriers-fix' %}
+                </h4>
+            </div>
+            <ul>
+                {% for action in collections["actions_" + lang] | findAll('data.barriers', barrier.data.uuid) %}
+                    <li>{{ action.data.title }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>

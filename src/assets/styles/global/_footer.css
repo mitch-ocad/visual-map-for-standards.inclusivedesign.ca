@@ -1,0 +1,76 @@
+footer {
+    --flow-space: 2.25rem;
+
+    background-color: var(--fl-bgColor, var(--color-indigo-800));
+    color: var(--fl-fgColor, var(--color-white));
+    padding-block: var(--common-block-padding);
+    padding-inline: var(--common-inline-padding);
+}
+
+footer .content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+footer .content > * {
+    width: max-content;
+}
+
+footer section {
+    border-block-end: 0;
+    border-block-start: 0.125rem solid currentcolor;
+    box-shadow: none;
+    padding-block: 1em 0;
+    padding-inline: 0;
+}
+
+footer ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+footer section a {
+    display: inline-flex;
+}
+
+footer svg {
+    fill: var(--fl-linkFgColor, white);
+}
+
+footer a:hover svg {
+    fill: var(--fl-linkBgColor, currentColor);
+}
+
+footer .flow > address {
+    font-style: normal;
+    margin-block-start: 0;
+}
+
+.license {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    max-width: calc(100vw - var(--common-inline-padding) * 2);
+}
+
+.license a {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.25rem;
+    margin-inline-end: -0.25rem;
+}
+
+.license svg {
+    height: 1rem;
+    width: 1rem;
+}
+
+@media (width >= 70.875rem) {
+    footer .content {
+        display: grid;
+        gap: 1.875rem;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
